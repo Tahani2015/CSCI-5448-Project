@@ -5,13 +5,13 @@ class Address(models.Model):
 	state = models.CharField(max_length=20)
 	city = models.CharField(max_length=30)
  	zip = models.CharField(max_length=30)
-	doctor = models.ForeignKey(Doctor)
+	doctor = models.ForeignKey('Doctor')
 
 class Bio(models.Model):
 	education = models.TextField()
 	awards = models.TextField()
 	experience = models.TextField()
-	doctor = models.ForeignKey(Doctor)
+	doctor = models.ForeignKey('Doctor')
 
 class Insurance(models.Model):
 	INSURANCE_CHOICES = (
@@ -24,13 +24,13 @@ class Insurance(models.Model):
 		('United', 'United'),
 	)
 	name = models.CharField(max_length=50, choices=INSURANCE_CHOICES)
-	doctor = models.ForeignKey(Doctor)
+	doctor = models.ForeignKey('Doctor')
 
 class Review(models.Model):
 	rating = models.IntegerField()
 	comment= models. TextField()
-	doctor = models.ForeignKey(Doctor)
-	patient = models.ForeignKey(RegisteredPatient)
+	doctor = models.ForeignKey('Doctor')
+	patient = models.ForeignKey('RegisteredPatient')
 	date = models.DateTimeField(default=timezone.now)
 
 class User(models.Model):
@@ -62,8 +62,8 @@ class Doctor(models.Model):
 
 class RegisteredPatient(models.Model):
 	name = models.CharField(max_length=30)
-	username = models.ForeignKey(User)
+	username = models.ForeignKey('User')
 
 class FavoriteDoctors(models.Model):
-	patient = models.ForeignKey(RegisteredPatient)
-	doctor = models.ForeignKey(Doctor)
+	patient = models.ForeignKey('RegisteredPatient')
+	doctor = models.ForeignKey('Doctor')
