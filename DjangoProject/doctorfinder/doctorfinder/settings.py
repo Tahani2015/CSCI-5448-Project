@@ -81,8 +81,8 @@ DATABASES = {
         'NAME': 'doctorfinder',
         'USER':'drfinder',
         'PASSWORD':'drfinder',
-        'HOST':'localhost',
-        'PORT':'3306',
+        'HOST':'',
+        'PORT':'',
     }
 }
 
