@@ -78,11 +78,19 @@ WSGI_APPLICATION = 'doctorfinder.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+<<<<<<< HEAD
         'NAME': 'doctorFinder',
         'USER':'drfinder',
         'PASSWORD':'drfinder',
         'HOST':'localhost',
         'PORT':'3306',
+=======
+        'NAME': 'doctorfinder',
+        'USER':'drfinder',
+        'PASSWORD':'drfinder',
+        'HOST':'',
+        'PORT':'',
+>>>>>>> bfd7a08873ff5c226f9e518155ffef723a262032
     }
 }
 
