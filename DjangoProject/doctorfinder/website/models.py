@@ -1,18 +1,6 @@
 from django.db import models
 from django.utils import timezone
 
-class Address(models.Model):
-	state = models.CharField(max_length=20)
-	city = models.CharField(max_length=30)
- 	zip = models.CharField(max_length=30)
-	doctor = models.ForeignKey(Doctor)
-
-class Bio(models.Model):
-	education = models.TextField()
-	awards = models.TextField()
-	experience = models.TextField()
-	doctor = models.ForeignKey(Doctor)
-
 class Insurance(models.Model):
 	INSURANCE_CHOICES = (
 		('Aetna', 'Aetna'),
@@ -24,13 +12,13 @@ class Insurance(models.Model):
 		('United', 'United'),
 	)
 	name = models.CharField(max_length=50, choices=INSURANCE_CHOICES)
-	doctor = models.ForeignKey(Doctor)
+	doctor = models.ForeignKey('Doctor',to_field= "username")
 
 class Review(models.Model):
 	rating = models.IntegerField()
 	comment= models. TextField()
-	doctor = models.ForeignKey(Doctor)
-	patient = models.ForeignKey(RegisteredPatient)
+	doctor = models.ForeignKey('Doctor',to_field= "username")
+	patient = models.ForeignKey('User',to_field= "username")
 	date = models.DateTimeField(default=timezone.now)
 
 class User(models.Model):
@@ -39,7 +27,8 @@ class User(models.Model):
 		('Patient', 'Patient'),
 		('Doctor', 'Doctor'),
 	)
-	username = models.EmailField()
+	name = models.CharField(max_length=30,default='')
+	username = models.EmailField(primary_key=True)
 	password = models.CharField(max_length=256)
 	type= models.CharField(max_length=10, choices=USER_CHOICES)
 
@@ -53,17 +42,21 @@ class Doctor(models.Model):
 		('Psychiatrist', 'Psychiatrist'),
 		('Orthopedist', 'Orthopedist'),
 	)
-	name = models.CharField(max_length=30)
-	phoneNumber = models.CharField(max_length =15)
-	officeHours = models.CharField(max_length=100)
-	speciality = models.CharField(max_length=30, choices=SPECIALITY_CHOICES)
+	phoneNumber = models.CharField(max_length =15,default='')
+	officeHours = models.CharField(max_length=100,default='')
+	speciality = models.CharField(max_length=30, choices=SPECIALITY_CHOICES,default='')
 	rating = models.FloatField()
-	availability = models.DateField()
-
-class RegisteredPatient(models.Model):
-	name = models.CharField(max_length=30)
-	username = models.ForeignKey(User)
+	availability = models.DateField(default='')
+	state = models.CharField(max_length=20,default='')
+	city = models.CharField(max_length=30,default='')
+ 	zip = models.CharField(max_length=30,default='')
+ 	street = models.CharField(max_length=50,default='')
+ 	education = models.TextField(default='')
+	awards = models.TextField(default='')
+	experience = models.TextField(default='')
+	username = models.OneToOneField('User', to_field= "username",primary_key=True,default='')
+	
 
 class FavoriteDoctors(models.Model):
-	patient = models.ForeignKey(RegisteredPatient)
-	doctor = models.ForeignKey(Doctor)
+	patient = models.ForeignKey('User',to_field= "username")
+	doctor = models.ForeignKey('Doctor',to_field= "username")

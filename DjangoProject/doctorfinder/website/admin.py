@@ -1,3 +1,13 @@
 from django.contrib import admin
 
-# Register your models here.
+from django.contrib import admin
+
+from .models import Insurance
+from .models import Review
+from .models import User
+from .models import Doctor
+
+from .models import FavoriteDoctors
+
+admin.site.register(Insurance)
+admin.site.register(Review)
