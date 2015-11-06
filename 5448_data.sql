@@ -211,7 +211,7 @@ INSERT INTO `website_doctor` (`phoneNumber`, `officeHours`, `speciality`, `ratin
 	('9889789837', 'Mon-Tue 11am-1pm', 'Eye Doctor', 4.7, '','California', 'Riverside', '92505','','MD', 'Gold Award', '5 years', 'jackhumpty@gmail.com' ),
 	('9889789858', 'Mon-Fri 4pm-6pm', 'Dentist', 4.0, '','Arizona', 'Bisbee', '85603','','DM', 'Gold Award', '25 years', 'greengoblin@gmail.com' ),
   	('9889789869', 'Fri-Sun 6pm-9pm', 'Primary Care', 5.0,'','Iowa', 'Iowa City', '52241','','MD', 'Gold Award', '15 years', 'goldyfish@gmail.com' ),
-	('9889789896', 'Mon-Wed 4pm-7pm', 'Orthopedist', '','Colorado', 'Broomfield', '80038','','MD', 'Gold Award', '15 years', 'annaharbor@gmail.com' ),
+	('9889789896', 'Mon-Wed 4pm-7pm', 'Orthopedist', 5.0, '','Colorado', 'Broomfield', '80038','','MD', 'Gold Award', '15 years', 'annaharbor@gmail.com' ),
 	('3037770400', 'Mon - Thur: 8 - 5', 'ENT', 4, '', 'Colorado', 'Boulder', '80301', '', 'University of Texas, San Antonio', '', '', 'Sara_George@gmail.com'),
        ('3035770050', 'Tue - Fri: 8 - 5', 'ENT', 3.5, '', 'Colorado', 'Denver', '80220', '', 'Vilnius Univeristy of Medicine', '', '', 'George@outlook.com'),
        ('3034770006', 'Mon - Fri: 8 - 6', 'Primary Care', 4.5, '', 'Colorado', 'Boulder', '80306', '', 'University of Colorado', '', '', 'Robert@gmail.com'),
