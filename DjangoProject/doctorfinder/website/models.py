@@ -17,8 +17,8 @@ class Insurance(models.Model):
 class Review(models.Model):
 	rating = models.IntegerField()
 	comment= models. TextField()
-	doctor = models.ForeignKey('Doctor',to_field= "username")
-	patient = models.ForeignKey('User',to_field= "username")
+	doctor= models.ForeignKey('Doctor',to_field= "username")
+	patient= models.ForeignKey('User',to_field= "username")
 	date = models.DateTimeField(default=timezone.now)
 
 class User(models.Model):
@@ -44,7 +44,7 @@ class Doctor(models.Model):
 	)
 	phoneNumber = models.CharField(max_length =15,default='')
 	officeHours = models.CharField(max_length=100,default='')
-	speciality = models.CharField(max_length=30, choices=SPECIALITY_CHOICES,default='')
+	speciality = models.CharField(max_length=30, choices=SPECIALITY_CHOICES)
 	rating = models.FloatField()
 	availability = models.DateField(default='')
 	state = models.CharField(max_length=20,default='')
@@ -54,7 +54,7 @@ class Doctor(models.Model):
  	education = models.TextField(default='')
 	awards = models.TextField(default='')
 	experience = models.TextField(default='')
-	username = models.OneToOneField('User', to_field= "username",primary_key=True,default='')
+	username = models.OneToOneField('User', to_field= "username",primary_key=True) 
 	
 
 class FavoriteDoctors(models.Model):

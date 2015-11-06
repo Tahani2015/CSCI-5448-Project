@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('phoneNumber', models.CharField(default=b'', max_length=15)),
                 ('officeHours', models.CharField(default=b'', max_length=100)),
-                ('speciality', models.CharField(default=b'', max_length=30, choices=[(b'Primary Care', b'Primary Care'), (b'Dentist', b'Dentist'), (b'Dermatologist', b'Dermatologist'), (b'ENT', b'ENT'), (b'Eye Doctor', b'Eye Doctor'), (b'Psychiatrist', b'Psychiatrist'), (b'Orthopedist', b'Orthopedist')])),
+                ('speciality', models.CharField(max_length=30, choices=[(b'Primary Care', b'Primary Care'), (b'Dentist', b'Dentist'), (b'Dermatologist', b'Dermatologist'), (b'ENT', b'ENT'), (b'Eye Doctor', b'Eye Doctor'), (b'Psychiatrist', b'Psychiatrist'), (b'Orthopedist', b'Orthopedist')])),
                 ('rating', models.FloatField()),
                 ('availability', models.DateField(default=b'')),
                 ('state', models.CharField(default=b'', max_length=20)),
@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
                 ('education', models.TextField(default=b'')),
                 ('awards', models.TextField(default=b'')),
                 ('experience', models.TextField(default=b'')),
-                ('username', models.OneToOneField(primary_key=True, default=b'', serialize=False, to='website.User')),
+                ('username', models.OneToOneField(primary_key=True, serialize=False, to='website.User')),
             ],
         ),
         migrations.AddField(
