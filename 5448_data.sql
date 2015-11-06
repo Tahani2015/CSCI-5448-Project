@@ -237,7 +237,7 @@ INSERT INTO `website_doctor` (`phoneNumber`, `officeHours`, `speciality`, `ratin
        ('3037070230', 'Tue - Fri: 8 - 5', 'Eye Doctor', 5, '', 'Colorado', 'Aurora', '80011', '', 'University of Missouri, Columbia', '', '', 'Ali123@yahoo.com'),
        ('3031770011', 'Mon - Thur: 8 - 5', 'Eye Doctor', 5, '', 'Colorado', 'Denver', '80246', '', 'Tufts University', '', '', 'Jamila22@gmail.com'),
        ('3037770035', 'Mon - Fri: 9 - 5', 'Eye Doctor', 4.7, '', 'Colorado', 'Lakewood', '80228', '', 'University of Michigan', '', '', 'Ayman15@gmail.com');
-/*
+
 INSERT INTO `website_favoritedoctors` (`patient_id`, `doctor_id`) VALUES
        ('marktwain@sean.com', 'johnnyshen@sean.com'),
        ('marktwain@sean.com', 'michaelhewitt@sean.com'),
@@ -543,4 +543,4 @@ INSERT INTO `website_review` (`rating`, `comment`, `doctor_id`, `patient_id`, `d
        (4, 'Good job', 'Sara_George@gmail.com', 'Turkey@gmail.com', ''),
        (4, 'Excellent!', 'Aaron@outlook.com', 'Turkey@gmail.com', ''),
        (5, 'Good job', 'Ayman15@gmail.com', 'Turkey@gmail.com', ''),
-       (4, 'Good job', 'Javed@gmail.com', 'Turkey@gmail.com', '');*/
+       (4, 'Good job', 'Javed@gmail.com', 'Turkey@gmail.com', '');
