@@ -391,7 +391,7 @@ INSERT INTO `website_insurance` (`name`, `doctor_id`) VALUES
        ('Blue', 'robertansell@kaiyue.com'),
        ('Cigna', 'robertansell@kaiyue.com'),
        ('Medicare', 'robertansell@kaiyue.com'),
-       ('United', 'robertansell@kaiyue.com')
+       ('United', 'robertansell@kaiyue.com'),
        ('Aetna', 'jonahhill@gmail.com'),
        ('Cigna', 'amywinehouse@gmail.com'),
        ('Medicare', 'jonahhill@gmail.com'),
