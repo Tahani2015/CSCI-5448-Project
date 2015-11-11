@@ -4,6 +4,7 @@ from django.template.context_processors import csrf
 
 from .forms import SearchForm
 from .search import Search
+from .sort import RatingSort, AvailabilitySort
 from website.models import Doctor
 
 def index(request):
@@ -22,6 +23,8 @@ def index(request):
                             form.cleaned_data['city'],
                             form.cleaned_data['zip'],
                             form.cleaned_data['specialty'],)
+            print form.cleaned_data['state']
+            search.setSort(RatingSort())
             #actually do search
             results=search.doSearch()
             #store search objects into our session information for use
@@ -37,7 +40,6 @@ def index(request):
 
 def search(request):
     context = {}
-    context.update(csrf(request))
     context['search'] = request.session['search']
     context['results'] = request.session['results']
     return render(request, 'website/search.html', context);

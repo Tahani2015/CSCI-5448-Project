@@ -7,7 +7,7 @@ class Sort():
 class RatingSort(Sort):
     #sort results in descending order by rating
     def sort(self, results):
-        return results.sort(key=attrgetter('rating'), reverse=True)
+        return sorted(results, key=attrgetter('rating'), reverse=True)
 
 class AvailabilitySort(Sort):
     #sort results in ascending order by availability
