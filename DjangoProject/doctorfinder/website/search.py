@@ -1,3 +1,5 @@
+from .sort import RatingSort, AvailabilitySort
+
 class Search():
     def __init__(self, state, city, zip, specialty):
         self.state = state
@@ -6,7 +8,13 @@ class Search():
         self.specialty = specialty
 
     def doSearch():
-        pass
+        #do search, either with databaseproxy or django builtin
+        
+        #build objects
+        results = __viewSearchResults(results)
+        #sort
+        results = self.sort.sort(results)
+        self.results = results
 
     def setSort(sort):
         self.sort = sort
