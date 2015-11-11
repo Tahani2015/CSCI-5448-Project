@@ -4,4 +4,8 @@
 
 <p> Displaying results for {{ search.specialty }} near {{ search.city }} </p>
 
+{% for doctor in results %}
+    {{ doctor.username.name }}
+{% endfor %}
+
 {% endblock %}

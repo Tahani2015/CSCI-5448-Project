@@ -23,10 +23,11 @@ def index(request):
                             form.cleaned_data['zip'],
                             form.cleaned_data['specialty'],)
             #actually do search
-            
+            results=search.doSearch()
             #store search objects into our session information for use
             #in search view
             request.session['search'] = search
+            request.session['results'] = results
             return HttpResponseRedirect('search.html')
     else:
         form = SearchForm();
@@ -38,5 +39,6 @@ def search(request):
     context = {}
     context.update(csrf(request))
     context['search'] = request.session['search']
+    context['results'] = request.session['results']
     return render(request, 'website/search.html', context);
    
