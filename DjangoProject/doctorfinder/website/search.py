@@ -1,7 +1,6 @@
 
 from .models import Doctor
 
-
 class Search():
     def __init__(self, state, city, zip, specialty):
         self.state = state
@@ -10,10 +9,8 @@ class Search():
         self.specialty = specialty
 
     def doSearch(self):
-        #sort
-        results = self.sort.sort(Doctor.objects.filter(speciality=self.specialty, state=self.state, city=self.city, zip=self.zip))
-        self.results = results
-        return self.results
+        self.results = Doctor.objects.filter(speciality=self.specialty, state=self.state, city=self.city, zip=self.zip)     
+        self.sortType.sort(self.results)
 
-    def setSort(self, sort):
-        self.sort = sort
+    def setSort(self, sortType):
+        self.sortType = sortType

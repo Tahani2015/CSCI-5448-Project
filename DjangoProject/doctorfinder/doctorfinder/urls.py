@@ -21,5 +21,5 @@ from website import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.index, name='index'),
-    url(r'^search', views.search, name='search'),
+    url(r'^search', views.search_results, name='search_results'),
 ]

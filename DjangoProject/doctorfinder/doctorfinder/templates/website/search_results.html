@@ -1,0 +1,13 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+
+<p> Displaying results for {{ doctors.specialty }} near {{ doctors.city }} </p>
+
+{% for doctor in doctors.results %}
+    {{ doctor.username.name }}
+    {{ doctor.rating }}
+    
+{% endfor %}
+
+{% endblock %}

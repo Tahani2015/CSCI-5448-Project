@@ -12,4 +12,4 @@ class RatingSort(Sort):
 class AvailabilitySort(Sort):
     #sort results in ascending order by availability
     def sort(self, results):
-        return results.sort(key=attrgetter('availability'))
+        return sorted(results, key=attrgetter('availability'))

@@ -1,46 +1,31 @@
-from django.shortcuts import render
-from django.http import Http404, HttpResponseRedirect
-from django.template.context_processors import csrf
+from django.shortcuts import render, redirect
+from django.http import Http404
 
 from .forms import SearchForm
 from .search import Search
 from .sort import RatingSort, AvailabilitySort
-from website.models import Doctor
+from .models import Doctor
 
 def index(request):
-	# return HttpResponse('<p> In index view</p>')
-	#doctors=Doctor.objects.exclude(username='Sara_George@gmail.com')
-   	#return render(request, 'website/index.html', {
-   	#	'doctors':doctors,
-   	#	})
-    context = {}
-    context.update(csrf(request))
     if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():
-            #do search with classes?
             search = Search(form.cleaned_data['state'],
                             form.cleaned_data['city'],
                             form.cleaned_data['zip'],
                             form.cleaned_data['specialty'],)
-            print form.cleaned_data['state']
+            
             search.setSort(RatingSort())
-            #actually do search
-            results=search.doSearch()
-            #store search objects into our session information for use
-            #in search view
-            request.session['search'] = search
-            request.session['results'] = results
-            return HttpResponseRedirect('search.html')
+            search.doSearch()
+        #store search objects into our session information for use in search results
+            request.session['search'] = search         
+            return redirect('search_results.html')
     else:
         form = SearchForm();
 
-    context['form'] = form
-    return render(request, 'website/index.html', context)
+    return render(request, 'website/index.html', {'form': form})
 
-def search(request):
-    context = {}
-    context['search'] = request.session['search']
-    context['results'] = request.session['results']
-    return render(request, 'website/search.html', context);
+def search_results(request):
+    doctors= request.session['search']
+    return render(request, 'website/search_results.html', {'doctors':doctors})
    
