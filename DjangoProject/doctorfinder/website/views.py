@@ -10,10 +10,11 @@ def index(request):
     if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():
-            search = Search(form.cleaned_data['state'],
+            search = Search(form.cleaned_data['specialty'],
                             form.cleaned_data['city'],
+                            form.cleaned_data['state'],
                             form.cleaned_data['zip'],
-                            form.cleaned_data['specialty'],)
+                            form.cleaned_data['insurance'],)
             
             search.setSort(RatingSort())
             search.doSearch()
