@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.index, name='index'),
     url(r'^search', views.search_results, name='search_results'),
+    url(r'^signup', views.sign_up, name='sign_up'),
 ]
