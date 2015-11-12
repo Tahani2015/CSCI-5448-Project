@@ -1,7 +1,6 @@
 {% extends "website/base.html" %}
 
 {% block content %}
-<p> Home Page </p>
 
 <form method="POST">{% csrf_token %}
   {{ form.as_p }}
