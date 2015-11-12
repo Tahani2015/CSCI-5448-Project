@@ -11,7 +11,7 @@ class Search():
 
     def doSearch(self):
         docResults = Doctor.objects.filter(speciality=self.speciality, city=self.city, state=self.state, zip=self.zip)
-        #print('docObjects: ',docResults.values())     
+        #print('docObjects: ',docResults[0].values())     
         insResults = Insurance.objects.filter(name=self.insurance)
         #print('insObjects: ',insResults.values())
         docList=[doc.username_id for doc in docResults]

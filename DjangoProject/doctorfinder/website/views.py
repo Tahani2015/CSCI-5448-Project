@@ -1,10 +1,9 @@
-from django.shortcuts import render, redirect
-from django.http import Http404
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import SearchForm
 from .search import Search
 from .sort import RatingSort, AvailabilitySort
-from .models import Doctor
+from .models import Doctor, Review, Insurance
 
 def index(request):
     if request.method == 'POST':
@@ -24,11 +23,16 @@ def index(request):
                 request.session['search'] = search
                 return redirect('search_results.html')
     else:
-        form = SearchForm();
-
+        form = SearchForm()
     return render(request, 'website/index.html', {'form': form})
 
 def search_results(request):
     doctors= request.session['search']
     return render(request, 'website/search_results.html', {'doctors':doctors})
+   
+def doctor_detail(request, pk):
+    doctor=get_object_or_404(Doctor, username=pk)
+    insurances=Insurance.objects.filter(doctor=pk)
+    reviews=Review.objects.filter(doctor=pk)
+    return render(request, 'website/doctor_detail.html', {'doctor': doctor, 'insurances': insurances, 'reviews': reviews})
    
