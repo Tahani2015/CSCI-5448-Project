@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from .models import Doctor, Insurance, User
 
 class SearchForm(forms.Form):
-    specialty = forms.ChoiceField(widget=forms.Select, choices=Doctor.SPECIALITY_CHOICES)
+    speciality = forms.ChoiceField(widget=forms.Select, choices=Doctor.SPECIALITY_CHOICES)
     city = forms.CharField(max_length = 100)
     state = forms.CharField(widget = USStateSelect, max_length = 100)
     zip = USZipCodeField()

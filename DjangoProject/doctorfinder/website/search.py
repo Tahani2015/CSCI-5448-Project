@@ -2,21 +2,21 @@
 from .models import Doctor, Insurance
 
 class Search():
-    def __init__(self, specialty, city, state, zip, insurance):
-        self.specialty = specialty
+    def __init__(self, speciality, city, state, zip, insurance):
+        self.speciality = speciality
         self.city = city
         self.state = state
         self.zip = zip
         self.insurance=insurance
 
     def doSearch(self):
-        docResults = Doctor.objects.filter(speciality=self.specialty, city=self.city, state=self.state, zip=self.zip)
-        #print('docObjects: ',docResults)     
+        docResults = Doctor.objects.filter(speciality=self.speciality, city=self.city, state=self.state, zip=self.zip)
+        #print('docObjects: ',docResults.values())     
         insResults = Insurance.objects.filter(name=self.insurance)
-        #print('insObjects: ',insResults)
-        docList=[doc.username.username for doc in docResults]
+        #print('insObjects: ',insResults.values())
+        docList=[doc.username_id for doc in docResults]
         #print('doclist: ',docList)
-        insList=[doc.doctor.username.username for doc in insResults]
+        insList=[doc.doctor_id for doc in insResults]
         #print('inslist: ',insList)
         inters_list= list(set(docList).intersection(insList))
         #print('intersection: ',inters_list)

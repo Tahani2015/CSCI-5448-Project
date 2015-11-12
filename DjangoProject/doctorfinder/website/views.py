@@ -10,7 +10,7 @@ def index(request):
     if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():
-            search = Search(form.cleaned_data['specialty'],
+            search = Search(form.cleaned_data['speciality'],
                             form.cleaned_data['city'],
                             form.cleaned_data['state'],
                             form.cleaned_data['zip'],
@@ -18,9 +18,11 @@ def index(request):
             
             search.setSort(RatingSort())
             search.doSearch()
-        #store search objects into our session information for use in search results
-            request.session['search'] = search         
-            return redirect('search_results.html')
+            if search.results== [] : print "No results! " # Alert msg
+            else:
+                #store search objects into our session information for use in search results
+                request.session['search'] = search
+                return redirect('search_results.html')
     else:
         form = SearchForm();
 
