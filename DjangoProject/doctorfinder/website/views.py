@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import SearchForm, SignUpForm
+from .forms import SearchForm, SignUpForm, ReviewForm
 from .search import Search
 from .sort import RatingSort, AvailabilitySort
 from .models import Doctor, Review, Insurance, User
@@ -49,4 +49,17 @@ def doctor_detail(request, pk):
     insurances=Insurance.objects.filter(doctor=pk)
     reviews=Review.objects.filter(doctor=pk)
     return render(request, 'website/doctor_detail.html', {'doctor': doctor, 'insurances': insurances, 'reviews': reviews})
+
+def add_review(request, pk):
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.doctor_id = pk
+            review.patient_id = "Abdulla23@yahoo.com" pass # change it with the user logged in or just signed up
+            review.save()
+            return redirect('website.views.doctor_detail', pk=pk)
+    else:
+        form = ReviewForm();
+    return render(request, 'website/review_add.html', {'form': form})
    
