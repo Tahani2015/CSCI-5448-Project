@@ -1,4 +1,4 @@
-
+from .sort import RatingSort, AvailabilitySort
 from .models import Doctor, Insurance
 
 class Search():
@@ -24,11 +24,17 @@ class Search():
         for doc in inters_list: 
             doctors.append(Doctor.objects.get(username=doc))
                
-        self.results=doctors
-        self.sortType.sort(self.results)
+        self.results = self.sortType.sort(doctors)
 
     def setSort(self, sortType):
         self.sortType = sortType
 
-    def resort(self):
-        self.sortType.sort(self.results)
+    def reSort(self, type):
+        if type == 'Rating':
+            self.setSort(RatingSort())
+        elif type == 'Availability':
+            self.setSort(AvailabilitySort())
+        self.results = self.sortType.sort(self.results)
+
+
+

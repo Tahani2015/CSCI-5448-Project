@@ -22,3 +22,7 @@ class SignUpForm(forms.ModelForm):
         if self.cleaned_data.get('password') != self.cleaned_data.get('confirm_password'):
             raise ValidationError('Passwords must match')
         return self.cleaned_data
+
+class SetSortForm(forms.Form):
+    CHOICES = (('Rating', 'Rating'), ('Availability','Availability'))
+    choice_field = forms.ChoiceField(widget=forms.RadioSelect(attrs={'onclick':'this.form.submit();'}), choices = CHOICES)
