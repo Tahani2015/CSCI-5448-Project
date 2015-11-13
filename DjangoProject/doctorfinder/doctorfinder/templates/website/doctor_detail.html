@@ -31,6 +31,7 @@
     </div>
     <div>
     	<h3> Reviews</h3>
+    	<a href="{% url 'add_review' pk=doctor.pk %}">Add Review!</a>
     	{% for review in reviews %}
 	    	<div>
 		    	<ul>

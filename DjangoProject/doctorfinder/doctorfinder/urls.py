@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^search', views.search_results, name='search_results'),
     url(r'^doctor/(?P<pk>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.doctor_detail, name='doctor_detail'),
     url(r'^signup', views.sign_up, name='sign_up'),
+    url(r'^addreview/(?P<pk>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.add_review, name='add_review'),
 ]
