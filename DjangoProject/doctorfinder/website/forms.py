@@ -1,7 +1,7 @@
 from django import forms
 from localflavor.us.forms import USStateSelect, USZipCodeField
 from django.core.exceptions import ValidationError
-from .models import Doctor, Insurance, User
+from .models import Doctor, Insurance, User, Review
 
 class SearchForm(forms.Form):
     speciality = forms.ChoiceField(widget=forms.Select, choices=Doctor.SPECIALITY_CHOICES)
@@ -23,6 +23,13 @@ class SignUpForm(forms.ModelForm):
             raise ValidationError('Passwords must match')
         return self.cleaned_data
 
+
 class SetSortForm(forms.Form):
     CHOICES = (('Rating', 'Rating'), ('Availability','Availability'))
     choice_field = forms.ChoiceField(widget=forms.RadioSelect(attrs={'onclick':'this.form.submit();'}), choices = CHOICES)
+
+class ReviewForm(forms.ModelForm):
+
+    class Meta:
+        model = Review
+        fields = ('rating', 'comment')
