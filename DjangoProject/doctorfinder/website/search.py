@@ -29,3 +29,6 @@ class Search():
 
     def setSort(self, sortType):
         self.sortType = sortType
+
+    def resort(self):
+        self.sortType.sort(self.results)
