@@ -16,6 +16,12 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from website import views
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', views.index, name='index'),
+    url(r'^search', views.search_results, name='search_results'),
+    url(r'^doctor/(?P<pk>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.doctor_detail, name='doctor_detail'),
+    url(r'^signup', views.sign_up, name='sign_up'),
 ]

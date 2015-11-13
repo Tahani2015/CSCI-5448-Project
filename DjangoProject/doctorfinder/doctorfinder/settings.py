@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# serializer used for sessions
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
 
 # Application definition
 
@@ -56,7 +59,7 @@ ROOT_URLCONF = 'doctorfinder.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['doctorfinder/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
