@@ -5,8 +5,6 @@ from .search import Search
 from .sort import RatingSort, AvailabilitySort
 from .models import Doctor, Review, Insurance, User
 
-
-
 def index(request):
     if request.method == 'POST':
         form = SearchForm(request.POST)
