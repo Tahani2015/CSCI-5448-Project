@@ -56,7 +56,7 @@ def add_review(request, pk):
         if form.is_valid():
             review = form.save(commit=False)
             review.doctor_id = pk
-            review.patient_id = "Abdulla23@yahoo.com" pass # change it with the user logged in or just signed up
+            review.patient_id = "Abdulla23@yahoo.com"  # change it with the user logged in or just signed up
             review.save()
             return redirect('website.views.doctor_detail', pk=pk)
     else:
