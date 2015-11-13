@@ -1,6 +1,6 @@
 from django import forms
 from localflavor.us.forms import USStateSelect, USZipCodeField
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from .models import Doctor, Insurance, User, Review
 
 class SearchForm(forms.Form):
@@ -28,3 +28,13 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ('rating', 'comment')
+
+class LoginForm(forms.Form):
+    username = forms.EmailField()
+    password = forms.CharField(max_length=256)
+
+    def clean(self):
+        try:
+            user = User.objects.get(username=self.cleaned_data.get('username'))
+        except ObjectDoesNotExist:
+            raise ValidationError('Username is invalid')

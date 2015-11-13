@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
-from .forms import SearchForm, SignUpForm, ReviewForm
+from .forms import SearchForm, SignUpForm, ReviewForm, LoginForm
 from .search import Search
 from .sort import RatingSort, AvailabilitySort
 from .models import Doctor, Review, Insurance, User
@@ -56,10 +57,26 @@ def add_review(request, pk):
         if form.is_valid():
             review = form.save(commit=False)
             review.doctor_id = pk
-            review.patient_id = "Abdulla23@yahoo.com"  # change it with the user logged in or just signed up
+            review.patient_id = request.session['user']   # change it with the user logged in or just signed up
             review.save()
             return redirect('website.views.doctor_detail', pk=pk)
     else:
         form = ReviewForm();
     return render(request, 'website/review_add.html', {'form': form})
+
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user=User.objects.get(username=form.cleaned_data['username'])
+            if form.cleaned_data['password']!= user.password:
+                raise ValidationError('Password is not valid')
+            elif user.type == 'Patient':
+                request.session['user'] = user.username
+                return redirect('/')
+            else:
+                return redirect('website.views.doctor_detail', pk=user.username)       
+    else:
+        form = LoginForm();
+    return render(request, 'website/login.html', {'form': form})
    
