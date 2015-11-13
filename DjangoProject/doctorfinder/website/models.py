@@ -15,7 +15,14 @@ class Insurance(models.Model):
 	doctor = models.ForeignKey('Doctor',to_field= "username")
 
 class Review(models.Model):
-	rating = models.IntegerField()
+	RATING_CHOICES = (
+		(1, 1),
+		(2, 2),
+		(3, 3),
+		(4, 4),
+		(5, 5),
+	)
+	rating = models.IntegerField(choices=RATING_CHOICES)
 	comment= models. TextField()
 	doctor= models.ForeignKey('Doctor',to_field= "username")
 	patient= models.ForeignKey('User',to_field= "username")

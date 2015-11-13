@@ -4,7 +4,18 @@
 
 <h2> Search results for <em>{{ doctors.speciality }}</em> doctors in <em>{{ doctors.city }}</em> </h2>
 
+<form method="POST">
+	{% csrf_token %}
+	{{ form.as_p}}
+</form>
+
 {% for doctor in doctors.results %}
+
+	{% now "Y-m-d" as current_date %}
+	
+	{% if form.cleaned_data.choice_field == 'Availability' and doctor.availability.isoformat < current_date %}
+	
+	{% else %}
 	<div>
     	<h3> <a href="{% url 'doctor_detail' pk=doctor.pk %}">{{ doctor.username.name }}</a></h3>
     	<ul>
@@ -15,6 +26,8 @@
 	    	<li> <b>Phone#: </b>{{ doctor.phoneNumber}}</li>
 	    </ul>
     </div>
+
+    {% endif %}
 
 {% endfor %}
 

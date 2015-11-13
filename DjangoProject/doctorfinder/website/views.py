@@ -1,12 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from .forms import SearchForm, SignUpForm, ReviewForm, LoginForm, SetSortForm
 
-from .forms import SearchForm, SignUpForm, ReviewForm, LoginForm
 from .search import Search
 from .sort import RatingSort, AvailabilitySort
 from .models import Doctor, Review, Insurance, User
-
-
 
 def index(request):
     if request.method == 'POST':
@@ -31,7 +29,15 @@ def index(request):
 
 def search_results(request):
     doctors= request.session['search']
-    return render(request, 'website/search_results.html', {'doctors':doctors})
+    if request.method == 'POST':
+        form = SetSortForm(request.POST)
+        if form.is_valid():
+            sort_type = form.cleaned_data['choice_field']
+            doctors.reSort(sort_type)
+    else:
+        form = SetSortForm()
+    return render(request, 'website/search_results.html', {'doctors':doctors, 'form':form})
+
 
 def sign_up(request):
     if request.method == 'POST':
