@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from .forms import SearchForm, SignUpForm, ReviewForm, LoginForm, SetSortForm
 
+from .forms import SearchForm, SignUpForm, ReviewForm, LoginForm, SetSortForm
 from .search import Search
 from .sort import RatingSort, AvailabilitySort
 from .models import Doctor, Review, Insurance, User
@@ -22,7 +22,7 @@ def index(request):
             else:
                 #store search objects into our session information for use in search results
                 request.session['search'] = search
-                return redirect('search_results.html')
+                return redirect('website.views.search_results')
     else:
         form = SearchForm()
     return render(request, 'website/index.html', {'form': form})
@@ -37,19 +37,6 @@ def search_results(request):
     else:
         form = SetSortForm()
     return render(request, 'website/search_results.html', {'doctors':doctors, 'form':form})
-
-
-def sign_up(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            new = form.save(commit=False)
-            new.type = User.USER_CHOICES[1][1]
-            new.save()
-            return redirect('/')
-    else:
-        form = SignUpForm()
-    return render(request, 'website/signup.html', {'form': form})
    
 def doctor_detail(request, pk):
     doctor=get_object_or_404(Doctor, username=pk)
@@ -63,25 +50,38 @@ def add_review(request, pk):
         if form.is_valid():
             review = form.save(commit=False)
             review.doctor_id = pk
-            review.patient_id = request.session['user']   # change it with the user logged in or just signed up
+            review.patient_id = request.session['user']   # The user currently logged in 
             review.save()
             return redirect('website.views.doctor_detail', pk=pk)
     else:
         form = ReviewForm();
     return render(request, 'website/review_add.html', {'form': form})
 
+def sign_up(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            new = form.save(commit=False)
+            new.type = User.USER_CHOICES[1][1]
+            new.save()
+            return redirect('website.views.login')
+    else:
+        form = SignUpForm()
+    return render(request, 'website/signup.html', {'form': form})
+
+
 def login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
             user=User.objects.get(username=form.cleaned_data['username'])
-            if form.cleaned_data['password']!= user.password:
-                raise ValidationError('Password is not valid')
-            elif user.type == 'Patient':
-                request.session['user'] = user.username
+            if user.type == 'Patient':
                 return redirect('/')
+            elif user.type == 'Doctor':
+                return redirect('website.views.doctor_detail', pk=user.username) 
             else:
-                return redirect('website.views.doctor_detail', pk=user.username)       
+                return redirect('/admin')
+            request.session['user'] = user.username     
     else:
         form = LoginForm();
     return render(request, 'website/login.html', {'form': form})

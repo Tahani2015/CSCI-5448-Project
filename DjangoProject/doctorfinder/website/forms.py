@@ -10,29 +10,26 @@ class SearchForm(forms.Form):
     zip = USZipCodeField()
     insurance = forms.ChoiceField(widget = forms.Select, choices = Insurance.INSURANCE_CHOICES)
 
-class SignUpForm(forms.ModelForm):   
-    class Meta:
-        model = User
-        fields = ['username', 'name', 'password']
-
-    confirm_password = forms.CharField(max_length = 100)
-
-    #custom clean implementation to make sure passwords match
-    def clean(self):
-        if self.cleaned_data.get('password') != self.cleaned_data.get('confirm_password'):
-            raise ValidationError('Passwords must match')
-        return self.cleaned_data
-
-
 class SetSortForm(forms.Form):
     CHOICES = (('Rating', 'Rating'), ('Availability','Availability'))
     choice_field = forms.ChoiceField(widget=forms.RadioSelect(attrs={'onclick':'this.form.submit();'}), choices = CHOICES)
 
 class ReviewForm(forms.ModelForm):
-
     class Meta:
         model = Review
         fields = ('rating', 'comment')
+
+class SignUpForm(forms.ModelForm):   
+    class Meta:
+        model = User
+        fields = ['username', 'name', 'password']
+    confirm_password = forms.CharField(max_length = 100)
+
+    #custom clean implementation to make sure passwords match
+    def clean(self):
+        if self.cleaned_data['password'] != self.cleaned_data['confirm_password']:
+            raise ValidationError('Passwords must match')
+        return self.cleaned_data
 
 class LoginForm(forms.Form):
     username = forms.EmailField()
@@ -40,6 +37,8 @@ class LoginForm(forms.Form):
 
     def clean(self):
         try:
-            user = User.objects.get(username=self.cleaned_data.get('username'))
+            user = User.objects.get(username=self.cleaned_data['username'])
         except ObjectDoesNotExist:
             raise ValidationError('Username is invalid')
+        if self.cleaned_data['password']!= user.password:
+            raise ValidationError('Password is not valid')
