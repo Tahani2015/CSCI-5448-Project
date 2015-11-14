@@ -1,3 +1,4 @@
+from __future__ import division
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
@@ -50,12 +51,23 @@ def add_review(request, pk):
         if form.is_valid():
             review = form.save(commit=False)
             review.doctor_id = pk
-            review.patient_id = request.session['user']   # The user currently logged in 
+            review.patient_id = request.session['user']  # The user currently logged in 
             review.save()
+            calculate_rating(pk)
             return redirect('website.views.doctor_detail', pk=pk)
     else:
         form = ReviewForm();
     return render(request, 'website/review_add.html', {'form': form})
+
+def calculate_rating(pk):
+    reviews=Review.objects.filter(doctor=pk)
+    ratingSum=0
+    for review in reviews:
+        ratingSum+=review.rating
+    newRating=ratingSum/len(reviews)
+    doctor=Doctor.objects.get(username=pk)
+    doctor.rating=newRating
+    doctor.save()
 
 def sign_up(request):
     if request.method == 'POST':
@@ -69,19 +81,18 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'website/signup.html', {'form': form})
 
-
 def login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
             user=User.objects.get(username=form.cleaned_data['username'])
+            request.session['user'] = user.username
             if user.type == 'Patient':
                 return redirect('/')
             elif user.type == 'Doctor':
                 return redirect('website.views.doctor_detail', pk=user.username) 
             else:
                 return redirect('/admin')
-            request.session['user'] = user.username     
     else:
         form = LoginForm();
     return render(request, 'website/login.html', {'form': form})
