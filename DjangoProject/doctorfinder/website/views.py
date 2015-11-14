@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from .forms import SearchForm, SignUpForm, ReviewForm, LoginForm, SetSortForm
 from .search import Search
 from .sort import RatingSort, AvailabilitySort
-from .models import Doctor, Review, Insurance, User
+from .models import Doctor, Review, Insurance, User, FavoriteDoctors
 
 def index(request):
     if request.method == 'POST':
@@ -53,7 +53,11 @@ def add_review(request, pk):
             review.doctor_id = pk
             review.patient_id = request.session['user']  # The user currently logged in 
             review.save()
-            calculate_rating(pk)
+        # update doctor's rating    
+            newRating=calculate_rating(pk)
+            doctor=Doctor.objects.get(username=pk)
+            doctor.rating=newRating
+            doctor.save()
             return redirect('website.views.doctor_detail', pk=pk)
     else:
         form = ReviewForm();
@@ -65,9 +69,12 @@ def calculate_rating(pk):
     for review in reviews:
         ratingSum+=review.rating
     newRating=ratingSum/len(reviews)
-    doctor=Doctor.objects.get(username=pk)
-    doctor.rating=newRating
-    doctor.save()
+    return newRating
+
+def add_favorite(request, pk):
+    favorite=FavoriteDoctors(patient_id=request.session['user'], doctor_id=pk)
+    favorite.save()
+    return redirect('website.views.doctor_detail', pk=pk)
 
 def sign_up(request):
     if request.method == 'POST':

@@ -4,6 +4,9 @@
 
 <h2> <em>{{ doctor.username.name }}</em> Profile Page</h2>
 	<div>
+		<a href="{% url 'add_favorite' pk=doctor.pk %}">Add to Favorite Doctors</a>
+	</div>
+	<div>
     	<ul>
 	    	<li> <b>Speciality: </b> {{ doctor.speciality }}</li> 
 	    	<li> <b>Rating: </b>{{ doctor.rating }}</li> 

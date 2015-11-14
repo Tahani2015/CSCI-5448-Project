@@ -3,7 +3,7 @@
 {% block content %}
 <p> Add Review </p>
 
-<form action="" method="post">
+<form method="POST">
   {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Submit" />
