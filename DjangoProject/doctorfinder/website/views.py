@@ -133,3 +133,4 @@ def edit_patprofile(request):
     else:
         form = EditPatProForm()
     return render(request, 'website/edit_patient_profile.html', {'form': form})
+    
