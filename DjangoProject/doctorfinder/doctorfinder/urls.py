@@ -13,4 +13,7 @@ urlpatterns = [
     url(r'^doctor/(?P<pk>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.doctor_detail, name='doctor_detail'),
     url(r'^addReview/(?P<pk>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.add_review, name='add_review'),
     url(r'^doc/(?P<pk>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.add_favorite, name='add_favorite'),
+    url(r'^myProfile', views.my_profile, name='my_profile'),
+    url(r'^removeFavDoc/(?P<pk>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.remove_favdoc, name='remove_favdoc'),
+    url(r'^editPatientProfile', views.edit_patprofile, name='edit_patprofile'),
 ]

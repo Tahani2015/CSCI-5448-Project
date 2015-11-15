@@ -2,7 +2,7 @@ from __future__ import division
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
-from .forms import SearchForm, SignUpForm, ReviewForm, LoginForm, SetSortForm
+from .forms import SearchForm, SignUpForm, ReviewForm, LoginForm, SetSortForm, EditPatProForm
 from .search import Search
 from .sort import RatingSort, AvailabilitySort
 from .models import Doctor, Review, Insurance, User, FavoriteDoctors
@@ -104,3 +104,32 @@ def login(request):
         form = LoginForm();
     return render(request, 'website/login.html', {'form': form})
    
+def my_profile(request):
+    user=User.objects.get(username=request.session['user'])
+    if user.type == 'Patient':
+        patient=User.objects.get(username=request.session['user'])
+        favourites=FavoriteDoctors.objects.filter(patient_id=request.session['user'])
+        docList=[favourite.doctor_id for favourite in favourites]
+        doctors=[]
+        for doc in docList: 
+            doctors.append(Doctor.objects.get(username=doc))
+        return render(request, 'website/patient_profile.html', {'patient' : patient, 'doctors': doctors})
+    else:
+        return render(request, 'website/doctor_profile.html', {})
+
+def remove_favdoc(request, pk):
+    favourite_doc=FavoriteDoctors.objects.filter(doctor_id=pk)
+    favourite_doc.delete()
+    return redirect('website.views.my_profile')
+
+def edit_patprofile(request):
+    if request.method == 'POST':
+        form = EditPatProForm(request.POST)
+        if form.is_valid():
+            new = form.save(commit=False)
+            new.type = User.USER_CHOICES[1][1]
+            new.save()
+            return redirect('website.views.my_profile')
+    else:
+        form = EditPatProForm()
+    return render(request, 'website/edit_patient_profile.html', {'form': form})

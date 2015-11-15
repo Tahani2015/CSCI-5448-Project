@@ -1,0 +1,26 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+
+<h2> <em>{{ patient.name }}</em> Patient Profile</h2>
+<a href="{% url 'edit_patprofile' %}">Edit Profile</a>
+
+<h3> Favourites Doctors</h3>
+
+{% for doctor in doctors %}
+
+	<div>
+		<h3> <a href="{% url 'doctor_detail' pk=doctor.pk %}">{{ doctor.username.name }}</a></h3>
+		<a href="{% url 'remove_favdoc' pk=doctor.pk %}">Remove</a>
+    	<ul>
+	    	<li> <b>Speciality: </b> {{ doctor.speciality }}</li> 
+	    	<li> <b>Rating: </b>{{ doctor.rating }}</li> 
+	    	<li> <b>Next Availability: </b>{{ doctor.availability }}</li>
+	    	<li> <b>Location: </b>{{ doctor.street }} ,  {{ doctor.city }} ,  {{ doctor.state }},  {{ doctor.zip }}</li>
+	    	<li> <b>Phone#: </b>{{ doctor.phoneNumber}}</li>
+	    </ul>
+    </div>
+
+{% endfor %}
+
+{% endblock %}

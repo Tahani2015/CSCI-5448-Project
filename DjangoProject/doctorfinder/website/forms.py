@@ -41,4 +41,16 @@ class LoginForm(forms.Form):
         except ObjectDoesNotExist:
             raise ValidationError('Username is invalid')
         if self.cleaned_data['password']!= user.password:
-            raise ValidationError('Password is not valid')
+            raise ValidationError('Password is invalid')
+
+class EditPatProForm(forms.ModelForm):   
+    class Meta:
+        model = User
+        fields = ['username', 'name', 'password']
+    confirm_password = forms.CharField(max_length = 100)
+
+    #custom clean implementation to make sure passwords match
+    def clean(self):
+        if self.cleaned_data['password'] != self.cleaned_data['confirm_password']:
+            raise ValidationError('Passwords must match')
+        return self.cleaned_data
