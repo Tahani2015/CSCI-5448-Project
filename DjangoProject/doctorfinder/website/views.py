@@ -2,7 +2,7 @@ from __future__ import division
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
-from .forms import SearchForm, SignUpForm, ReviewForm, LoginForm, SetSortForm, EditPatProForm
+from .forms import *
 from .search import Search
 from .sort import RatingSort, AvailabilitySort
 from .models import Doctor, Review, Insurance, User, FavoriteDoctors
@@ -133,4 +133,16 @@ def edit_patprofile(request):
     else:
         form = EditPatProForm()
     return render(request, 'website/edit_patient_profile.html', {'form': form})
+
+def edit_docprofile(request, pk):
+    doctor = Doctor.objects.get(username=pk)
+    if request.method == 'POST':
+        form = EditDocProForm(request.POST, instance=doctor)
+        if form.is_valid():
+            form.save()
+            return redirect('website.views.doctor_detail', pk=pk)
+    else:
+        #make model data appear in form by default
+        form = EditDocProForm(instance=doctor)
+    return render(request, 'website/edit_doctor_profile.html', {'form': form})
     

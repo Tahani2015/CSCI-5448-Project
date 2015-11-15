@@ -4,6 +4,8 @@ from django.contrib import admin
 
 from website import views
 
+email_re = '[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}'
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.index, name='index'),
@@ -16,4 +18,5 @@ urlpatterns = [
     url(r'^myProfile', views.my_profile, name='my_profile'),
     url(r'^removeFavDoc/(?P<pk>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.remove_favdoc, name='remove_favdoc'),
     url(r'^editPatientProfile', views.edit_patprofile, name='edit_patprofile'),
+    url(r'^editDoc/(?P<pk>' + email_re + ')/$', views.edit_docprofile, name='edit_docprofile'),
 ]

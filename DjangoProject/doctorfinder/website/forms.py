@@ -54,3 +54,8 @@ class EditPatProForm(forms.ModelForm):
         if self.cleaned_data['password'] != self.cleaned_data['confirm_password']:
             raise ValidationError('Passwords must match')
         return self.cleaned_data
+
+class EditDocProForm(forms.ModelForm):
+    class Meta:
+        model = Doctor
+        fields = ['phoneNumber', 'officeHours', 'speciality', 'availability', 'street', 'state', 'city', 'zip', 'education', 'awards', 'experience']

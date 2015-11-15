@@ -6,6 +6,10 @@
 	<div>
 		<a href="{% url 'add_favorite' pk=doctor.pk %}">Add to Favorite Doctors</a>
 	</div>
+    <!-- this should only appear if the doctor is logged in... -->
+        <a href="{% url 'edit_docprofile' pk=doctor.pk %}">Edit</a>
+    <div>
+    </div>
 	<div>
     	<ul>
 	    	<li> <b>Speciality: </b> {{ doctor.speciality }}</li> 
