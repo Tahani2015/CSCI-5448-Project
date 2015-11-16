@@ -7,6 +7,7 @@ from gmapi import maps
 from .forms import *
 from .search import Search
 from .sort import RatingSort, AvailabilitySort
+from .login import LoginType
 from .models import Doctor, Review, Insurance, User, FavoriteDoctors
 
 def index(request):
@@ -45,6 +46,7 @@ def doctor_detail(request, pk):
     doctor=get_object_or_404(Doctor, username=pk)
     insurances=Insurance.objects.filter(doctor=pk)
     reviews=Review.objects.filter(doctor=pk)
+    user=User.objects.get(username=pk)
     address = doctor.street + ' ' + doctor.city + ', ' + doctor.state + ' ' + doctor.zip
     geo = maps.Geocoder()
     res, status = geo.geocode({'address': address})
@@ -60,7 +62,7 @@ def doctor_detail(request, pk):
         'position': res[0].get('geometry').get('location'),
         'map': gmap
         })
-    return render(request, 'website/doctor_detail.html', {'doctor': doctor, 'insurances': insurances, 'reviews': reviews, 'form': MapForm(initial={'map': gmap})})
+    return render(request, 'website/doctor_detail.html', {'doctor': doctor, 'insurances': insurances, 'reviews': reviews, 'user': user, 'form': MapForm(initial={'map': gmap})})
 
 def add_review(request, pk):
     if request.method == "POST":
@@ -109,21 +111,16 @@ def login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            user=User.objects.get(username=form.cleaned_data['username'])
-            request.session['user'] = user.username
-            if user.type == 'Patient':
-                return redirect('/')
-            elif user.type == 'Doctor':
-                return redirect('website.views.doctor_detail', pk=user.username) 
-            else:
-                return redirect('/admin')
+            request.session['user'] = form.cleaned_data['username']
+            userPage=LoginType(request.session['user']).redirectUser()
+            return userPage
     else:
         form = LoginForm();
     return render(request, 'website/login.html', {'form': form})
    
 def my_profile(request):
     user=User.objects.get(username=request.session['user'])
-    if user.type == 'Patient':
+    if user.type == "Patient":
         patient=User.objects.get(username=request.session['user'])
         favourites=FavoriteDoctors.objects.filter(patient_id=request.session['user'])
         docList=[favourite.doctor_id for favourite in favourites]
@@ -132,23 +129,24 @@ def my_profile(request):
             doctors.append(Doctor.objects.get(username=doc))
         return render(request, 'website/patient_profile.html', {'patient' : patient, 'doctors': doctors})
     else:
-        return render(request, 'website/doctor_profile.html', {})
+        return redirect('website.views.doctor_detail', pk=request.session['user'])
 
 def remove_favdoc(request, pk):
-    favourite_doc=FavoriteDoctors.objects.filter(doctor_id=pk)
+    favourite_doc=FavoriteDoctors.objects.get(doctor_id=pk, patient_id=request.session['user'])
     favourite_doc.delete()
     return redirect('website.views.my_profile')
 
 def edit_patprofile(request):
+    patient = User.objects.get(username=request.session['user'])
     if request.method == 'POST':
-        form = EditPatProForm(request.POST)
+        form = EditPatProForm(request.POST, instance=patient)
         if form.is_valid():
             new = form.save(commit=False)
             new.type = User.USER_CHOICES[1][1]
             new.save()
             return redirect('website.views.my_profile')
     else:
-        form = EditPatProForm()
+        form = EditPatProForm(instance=patient)
     return render(request, 'website/edit_patient_profile.html', {'form': form})
 
 def edit_docprofile(request, pk):
