@@ -119,15 +119,16 @@ def remove_favdoc(request, pk):
     return redirect('website.views.my_profile')
 
 def edit_patprofile(request):
+    patient = User.objects.get(username=request.session['user'])
     if request.method == 'POST':
-        form = EditPatProForm(request.POST)
+        form = EditPatProForm(request.POST, instance=patient)
         if form.is_valid():
             new = form.save(commit=False)
             new.type = User.USER_CHOICES[1][1]
             new.save()
             return redirect('website.views.my_profile')
     else:
-        form = EditPatProForm()
+        form = EditPatProForm(instance=patient)
     return render(request, 'website/edit_patient_profile.html', {'form': form})
 
 def edit_docprofile(request, pk):
