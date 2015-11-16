@@ -44,7 +44,9 @@ def doctor_detail(request, pk):
     doctor=get_object_or_404(Doctor, username=pk)
     insurances=Insurance.objects.filter(doctor=pk)
     reviews=Review.objects.filter(doctor=pk)
-    return render(request, 'website/doctor_detail.html', {'doctor': doctor, 'insurances': insurances, 'reviews': reviews})
+    user=User.objects.get(username=pk)
+    # request.session['type']=user.type
+    return render(request, 'website/doctor_detail.html', {'doctor': doctor, 'insurances': insurances, 'reviews': reviews, 'user': user})
 
 def add_review(request, pk):
     if request.method == "POST":
@@ -102,7 +104,7 @@ def login(request):
    
 def my_profile(request):
     user=User.objects.get(username=request.session['user'])
-    if user.type == 'Patient':
+    if user.type == "Patient":
         patient=User.objects.get(username=request.session['user'])
         favourites=FavoriteDoctors.objects.filter(patient_id=request.session['user'])
         docList=[favourite.doctor_id for favourite in favourites]
@@ -111,7 +113,7 @@ def my_profile(request):
             doctors.append(Doctor.objects.get(username=doc))
         return render(request, 'website/patient_profile.html', {'patient' : patient, 'doctors': doctors})
     else:
-        return render(request, 'website/doctor_profile.html', {})
+        return redirect('website.views.doctor_detail', pk=request.session['user'])
 
 def remove_favdoc(request, pk):
     favourite_doc=FavoriteDoctors.objects.get(doctor_id=pk, patient_id=request.session['user'])
