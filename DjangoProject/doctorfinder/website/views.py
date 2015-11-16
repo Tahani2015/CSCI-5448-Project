@@ -1,6 +1,8 @@
 from __future__ import division
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django import forms
+from gmapi import maps
 
 from .forms import *
 from .search import Search
@@ -43,7 +45,22 @@ def doctor_detail(request, pk):
     doctor=get_object_or_404(Doctor, username=pk)
     insurances=Insurance.objects.filter(doctor=pk)
     reviews=Review.objects.filter(doctor=pk)
-    return render(request, 'website/doctor_detail.html', {'doctor': doctor, 'insurances': insurances, 'reviews': reviews})
+    address = doctor.street + ' ' + doctor.city + ', ' + doctor.state + ' ' + doctor.zip
+    geo = maps.Geocoder()
+    res, status = geo.geocode({'address': address})
+    gmap = maps.Map(opts = {
+        'center': res[0].get('geometry').get('location'),
+        'mapTypeId': maps.MapTypeId.ROADMAP,
+        'zoom': 15,
+        'mapTypeControlOptions': {
+             'style': maps.MapTypeControlStyle.DROPDOWN_MENU
+        },
+    })
+    marker = maps.Marker(opts= {
+        'position': res[0].get('geometry').get('location'),
+        'map': gmap
+        })
+    return render(request, 'website/doctor_detail.html', {'doctor': doctor, 'insurances': insurances, 'reviews': reviews, 'form': MapForm(initial={'map': gmap})})
 
 def add_review(request, pk):
     if request.method == "POST":
@@ -145,4 +162,3 @@ def edit_docprofile(request, pk):
         #make model data appear in form by default
         form = EditDocProForm(instance=doctor)
     return render(request, 'website/edit_doctor_profile.html', {'form': form})
-    

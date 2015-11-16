@@ -1,6 +1,7 @@
 from django import forms
 from localflavor.us.forms import USStateSelect, USZipCodeField
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from gmapi.forms.widgets import GoogleMap
 from .models import Doctor, Insurance, User, Review
 
 class SearchForm(forms.Form):
@@ -59,3 +60,7 @@ class EditDocProForm(forms.ModelForm):
     class Meta:
         model = Doctor
         fields = ['phoneNumber', 'officeHours', 'speciality', 'availability', 'street', 'state', 'city', 'zip', 'education', 'awards', 'experience']
+
+
+class MapForm(forms.Form):
+    map = forms.Field(widget=GoogleMap(attrs={'width':510, 'height':510}))

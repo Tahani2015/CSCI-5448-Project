@@ -16,10 +16,13 @@
 	    	<li> <b>Rating: </b>{{ doctor.rating }}</li> 
 	    	<li> <b>Next Availability: </b>{{ doctor.availability }}</li>
 	    	<li> <b>Office Hours: </b>{{ doctor.officeHours }}</li>
-	    	<li> <b>Location: </b>{{ doctor.street }} ,  {{ doctor.city }} ,  {{ doctor.state }},  {{ doctor.zip }}</li>
+	    	<li> <b>Location: </b>{{ doctor.street }}, {{ doctor.city }}, {{ doctor.state }}, {{ doctor.zip }}</li>
 	    	<li> <b>Phone#: </b>{{ doctor.phoneNumber}}</li>
 	    </ul>
+     {{ form.map }}
+	 {{ form.media.js }}
     </div>
+
     <div>
     	<h3> Bio</h3>
     	<ul>
@@ -50,6 +53,5 @@
 			</div>
 		{% endfor %}
     </div>
-    
 
 {% endblock %}
