@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from .forms import *
 from .search import Search
 from .sort import RatingSort, AvailabilitySort
+from .login import LoginType
 from .models import Doctor, Review, Insurance, User, FavoriteDoctors
 
 def index(request):
@@ -92,14 +93,9 @@ def login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            user=User.objects.get(username=form.cleaned_data['username'])
-            request.session['user'] = user.username
-            if user.type == 'Patient':
-                return redirect('/')
-            elif user.type == 'Doctor':
-                return redirect('website.views.doctor_detail', pk=user.username) 
-            else:
-                return redirect('/admin')
+            request.session['user'] = form.cleaned_data['username']
+            userPage=LoginType(request.session['user']).redirectUser()
+            return userPage
     else:
         form = LoginForm();
     return render(request, 'website/login.html', {'form': form})
