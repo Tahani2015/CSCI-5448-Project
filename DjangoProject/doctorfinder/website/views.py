@@ -118,7 +118,7 @@ def my_profile(request):
         return render(request, 'website/doctor_profile.html', {})
 
 def remove_favdoc(request, pk):
-    favourite_doc=FavoriteDoctors.objects.filter(doctor_id=pk, patient_id=request.session['user'])
+    favourite_doc=FavoriteDoctors.objects.get(doctor_id=pk, patient_id=request.session['user'])
     favourite_doc.delete()
     return redirect('website.views.my_profile')
 
