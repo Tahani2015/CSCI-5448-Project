@@ -4,12 +4,15 @@
 
 <h2> <em>{{ doctor.username.name }}</em> Profile Page</h2>
 	<div>
+	<!-- this link should only appear if the patient is logged in... -->
 		{% if user.type == "Patient" %}
 		<a href="{% url 'add_favorite' pk=doctor.pk %}">Add to Favorite Doctors</a>		
 		{% endif %}
 	</div>
-    <!-- this should only appear if the doctor is logged in... -->
+    <!-- this link should only appear if the doctor is logged in... -->
+    	{% if user.type == "Doctor" %}
         <a href="{% url 'edit_docprofile' pk=doctor.pk %}">Edit</a>
+        {% endif %}
     <div>
     </div>
 	<div>
@@ -43,6 +46,7 @@
     </div>
     <div>
     	<h3> Reviews</h3>
+    	<!-- this link should only appear if the patient is logged in... -->
     	{% if user.type == "Patient"%}
     	<a href="{% url 'add_review' pk=doctor.pk %}">Add Review!</a>
     	{% endif %}

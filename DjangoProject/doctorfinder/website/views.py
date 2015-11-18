@@ -5,10 +5,10 @@ from django import forms
 from gmapi import maps
 
 from .forms import *
-from .search import Search
-from .sort import RatingSort, AvailabilitySort
-from .login import LoginType
-from .models import Doctor, Review, Insurance, User, FavoriteDoctors
+from .search import *
+from .sort import *
+from .login import *
+from .models import *
 
 def index(request):
     if request.method == 'POST':
@@ -46,8 +46,12 @@ def doctor_detail(request, pk):
     doctor=get_object_or_404(Doctor, username=pk)
     insurances=Insurance.objects.filter(doctor=pk)
     reviews=Review.objects.filter(doctor=pk)
-    user=User.objects.get(username=pk)
+    user=User.objects.get(username=request.session['user'])
     address = doctor.street + ' ' + doctor.city + ', ' + doctor.state + ' ' + doctor.zip
+    gmap=get_map(address)
+    return render(request, 'website/doctor_detail.html', {'doctor': doctor, 'insurances': insurances, 'reviews': reviews, 'user': user, 'form': MapForm(initial={'map': gmap})})
+
+def get_map(address):
     geo = maps.Geocoder()
     res, status = geo.geocode({'address': address})
     gmap = maps.Map(opts = {
@@ -62,7 +66,7 @@ def doctor_detail(request, pk):
         'position': res[0].get('geometry').get('location'),
         'map': gmap
         })
-    return render(request, 'website/doctor_detail.html', {'doctor': doctor, 'insurances': insurances, 'reviews': reviews, 'user': user, 'form': MapForm(initial={'map': gmap})})
+    return gmap
 
 def add_review(request, pk):
     if request.method == "POST":
