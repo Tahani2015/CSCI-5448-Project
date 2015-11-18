@@ -10,7 +10,15 @@ from .sort import *
 from .login import *
 from .models import *
 
+def get_user(request):
+    username = request.session.get('user', None)
+    if username is not None:
+        return User.objects.get(username=username)
+    else:
+        return None
+
 def index(request):
+    user = get_user(request)
     if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():
@@ -29,9 +37,10 @@ def index(request):
                 return redirect('website.views.search_results')
     else:
         form = SearchForm()
-    return render(request, 'website/index.html', {'form': form})
+    return render(request, 'website/index.html', {'form': form, 'user': user})
 
 def search_results(request):
+    user = get_user(request)
     doctors= request.session['search']
     if request.method == 'POST':
         form = SetSortForm(request.POST)
@@ -40,17 +49,13 @@ def search_results(request):
             doctors.reSort(sort_type)
     else:
         form = SetSortForm()
-    return render(request, 'website/search_results.html', {'doctors':doctors, 'form':form})
+    return render(request, 'website/search_results.html', {'doctors':doctors, 'form':form, 'user':user})
    
 def doctor_detail(request, pk):
     doctor=get_object_or_404(Doctor, username=pk)
     insurances=Insurance.objects.filter(doctor=pk)
     reviews=Review.objects.filter(doctor=pk)
-    username=request.session.get('user', None)
-    if username is not None:
-        user=User.objects.get(username=username)
-    else:
-        user=None
+    user = get_user(request)
     address = doctor.street + ' ' + doctor.city + ', ' + doctor.state + ' ' + doctor.zip
     gmap=get_map(address)
     return render(request, 'website/doctor_detail.html', {'doctor': doctor, 'insurances': insurances, 'reviews': reviews, 'user': user, 'form': MapForm(initial={'map': gmap})})
@@ -104,6 +109,7 @@ def add_favorite(request, pk):
     return redirect('website.views.doctor_detail', pk=pk)
 
 def sign_up(request):
+    user = get_user(request)
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -113,9 +119,10 @@ def sign_up(request):
             return redirect('website.views.login')
     else:
         form = SignUpForm()
-    return render(request, 'website/signup.html', {'form': form})
+    return render(request, 'website/signup.html', {'form': form, 'user': user})
 
 def login(request):
+    user = get_user(request)
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -124,7 +131,7 @@ def login(request):
             return userPage
     else:
         form = LoginForm();
-    return render(request, 'website/login.html', {'form': form})
+    return render(request, 'website/login.html', {'form': form, 'user': user})
    
 def my_profile(request):
     user=User.objects.get(username=request.session['user'])
