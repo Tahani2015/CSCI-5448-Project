@@ -46,7 +46,11 @@ def doctor_detail(request, pk):
     doctor=get_object_or_404(Doctor, username=pk)
     insurances=Insurance.objects.filter(doctor=pk)
     reviews=Review.objects.filter(doctor=pk)
-    user=User.objects.get(username=request.session['user'])
+    username=request.session.get('user', None)
+    if username is not None:
+        user=User.objects.get(username=username)
+    else:
+        user=None
     address = doctor.street + ' ' + doctor.city + ', ' + doctor.state + ' ' + doctor.zip
     gmap=get_map(address)
     return render(request, 'website/doctor_detail.html', {'doctor': doctor, 'insurances': insurances, 'reviews': reviews, 'user': user, 'form': MapForm(initial={'map': gmap})})
