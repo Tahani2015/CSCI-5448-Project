@@ -4,8 +4,11 @@ body {
     padding-top: 20px;
     background-color: #F2F2DC;
 }
-
 .title {
     color: #6E8C1C;
     font-family: 'Lobster';
+}
+.nav {
+    text-align: right;
+    margin-right: 40px;
 }
