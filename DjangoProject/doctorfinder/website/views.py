@@ -48,7 +48,7 @@ def search_results(request):
             sort_type = form.cleaned_data['choice_field']
             doctors.reSort(sort_type)
     else:
-        form = SetSortForm()
+        form = SetSortForm(initial={'choice_field':'Rating'})
     return render(request, 'website/search_results.html', {'doctors':doctors, 'form':form, 'user':user})
    
 def doctor_detail(request, pk):

@@ -13,7 +13,7 @@ class SearchForm(forms.Form):
 
 class SetSortForm(forms.Form):
     CHOICES = (('Rating', 'Rating'), ('Availability','Availability'))
-    choice_field = forms.ChoiceField(widget=forms.RadioSelect(attrs={'onclick':'this.form.submit();'}), choices = CHOICES)
+    choice_field = forms.ChoiceField(widget=forms.RadioSelect(attrs={'onclick':'this.form.submit();'}), choices = CHOICES, label='Sort by')
 
 class ReviewForm(forms.ModelForm):
     class Meta:
