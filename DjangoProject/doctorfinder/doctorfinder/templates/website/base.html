@@ -10,13 +10,15 @@
     <body>
         <a href="{% url 'sign_up' %}">Sign up!</a>
         <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'my_profile' %}">My Profile</a>   
+        {% if user %}
+        <a href="{% url 'my_profile' %}">My Profile</a>
+        {% endif %} 
     	<div>
             <h1 style="color:darkred">Doctor Finder</h1>
             <img src="/static/images/doctor.png" width="120" height="160"> 
         </div>
         {% block content %}
-        {% endblock %}
+        {% endblock content %}
         <script src="{% static main.jss %}"> </script>
     </body>
 </html>
