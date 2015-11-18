@@ -2,16 +2,15 @@
 
 {% block content %}
 
-<h2> <em>{{ patient.name }}</em> Patient Profile</h2>
-<a href="{% url 'edit_patprofile' %}">Edit Profile</a>
-
+<h2> <em>{{ patient.name }}</em>'s Profile <a class="btn btn-default" href="{% url 'edit_patprofile' %}"><span class="glyphicon glyphicon-pencil"></span></a></h2>
+	
 <h3> Favourites Doctors</h3>
 
 {% for doctor in doctors %}
 
 	<div>
 		<h3> <a href="{% url 'doctor_detail' pk=doctor.pk %}">{{ doctor.username.name }}</a></h3>
-		<a href="{% url 'remove_favdoc' pk=doctor.pk %}">Remove</a>
+			<button><a href="{% url 'remove_favdoc' pk=doctor.pk %}">Remove</a></button>
     	<ul>
 	    	<li> <b>Speciality: </b> {{ doctor.speciality }}</li> 
 	    	<li> <b>Rating: </b>{{ doctor.rating }}</li> 

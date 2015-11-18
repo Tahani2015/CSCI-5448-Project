@@ -6,12 +6,12 @@
 	<div>
 	<!-- this link should only appear if the patient is logged in... -->
 		{% if user.type == "Patient" %}
-		<a href="{% url 'add_favorite' pk=doctor.pk %}">Add to Favorite Doctors</a>		
+			<button><a href="{% url 'add_favorite' pk=doctor.pk %}">Add to Favorite Doctors</a></button>	
 		{% endif %}
 	</div>
     <!-- this link should only appear if the doctor is logged in... -->
     	{% if user.type == "Doctor" %}
-        <a href="{% url 'edit_docprofile' pk=doctor.pk %}">Edit</a>
+        	<button><a href="{% url 'edit_docprofile' pk=doctor.pk %}">Edit</a></button>
         {% endif %}
     <div>
     </div>
@@ -48,7 +48,7 @@
     	<h3> Reviews</h3>
     	<!-- this link should only appear if the patient is logged in... -->
     	{% if user.type == "Patient"%}
-    	<a href="{% url 'add_review' pk=doctor.pk %}">Add Review!</a>
+    		<button><a href="{% url 'add_review' pk=doctor.pk %}">Add Review!</a></button>
     	{% endif %}
     	{% for review in reviews %}
 	    	<div>
