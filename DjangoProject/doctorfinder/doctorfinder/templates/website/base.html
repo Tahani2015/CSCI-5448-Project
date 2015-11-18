@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="{% static main.css %}">
     </head>
     <body>
+        <a href="{% url 'index' %}">Home</a>
         <a href="{% url 'sign_up' %}">Sign up!</a>
         <a href="{% url 'login' %}">Login</a>
         {% if user %}
