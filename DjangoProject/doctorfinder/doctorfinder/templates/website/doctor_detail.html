@@ -7,14 +7,14 @@
     	{% if user.type == "Doctor" %}
         	<a class="btn btn-default" href="{% url 'edit_docprofile' pk=doctor.pk %}" title="Edit Profile"><span class="glyphicon glyphicon-pencil"></span></a>
         {% endif %}
+        <!-- this link should only appear if a patient is logged in... -->
+		{% if user.type == "Patient" %}
+			<a class="btn btn-default" href="{% url 'add_favorite' pk=doctor.pk %}" title="Add this doctor to my favorite doctors list">Add to Favorite</a>	
+		{% endif %}
 </h3>
 
-	<!-- this link should only appear if a patient is logged in... -->
-		{% if user.type == "Patient" %}
-			<a class="btn btn-default" href="{% url 'add_favorite' pk=doctor.pk %}">Add to Favorite Doctors</a>	
-		{% endif %}
- 
 	<div class="container">
+		<h3> Basic Info. :</h3>
     	<ul>
 	    	<li> <b>Speciality: </b> {{ doctor.speciality }}</li> 
 	    	<li> <b>Rating: </b>{{ doctor.rating }}</li> 
@@ -25,11 +25,14 @@
 	    </ul>
 	</div>
     
-    <div class="map">
-     {{ form.map }}
-	 {{ form.media.js }}
+    <div class="container">
+    	<h3> Address map :</h3>
+	    <div class="map">  	
+	     {{ form.map }}
+		 {{ form.media.js }}
+	    </div>
     </div>
-    
+
     <div class="container">
     	<h3> Bio</h3>
     	<ul>
@@ -40,7 +43,7 @@
     </div>
    
     <div class="container">
-    	<h3> Insurance Accepted</h3>
+    	<h3> Insurance Accepted :</h3>
 		    <ol>
     		{% for insurance in insurances %}
 			    	<li> {{ insurance.name }}</li> 
@@ -49,21 +52,25 @@
     </div>
     
     <div class="container">
-    	<h3> Reviews</h3>
-    	<!-- this link should only appear if a patient is logged in... -->
+    	<h3> Reviews :
+		<!-- this link should only appear if a patient is logged in... -->
     		{% if user.type == "Patient"%}
     		<a class="btn btn-default" href="{% url 'add_review' pk=doctor.pk %}">Add Review!</a>
     		{% endif %}
+    	</h3>
+    </div>	
+    		<table>
     			{% for review in reviews %}
-		    	<div>
-			    	<ul>
-				    	<li> <b>Posted By: </b> {{ review.patient.name }}</li> 
-				    	<li> <b>Date: </b>{{ review.date }}</li>
-				    	<li> <b>Rating: </b>{{ review.rating }}</li> 
-				    	<li> <b>Comment: </b>{{ review.comment }}</li>
-				    </ul>
-				</div>
+		    	<tr >
+					<td>
+				    	<ul>
+					    	<li> <b>Posted By: </b> {{ review.patient.name }}</li> 
+					    	<li> <b>Date: </b>{{ review.date }}</li>
+					    	<li> <b>Rating: </b>{{ review.rating }}</li> 
+					    	<li> <b>Comment: </b>{{ review.comment }}</li>
+					    </ul>
+					</td>
+				</tr>
 				{% endfor %}
-    </div>
 
 {% endblock %}

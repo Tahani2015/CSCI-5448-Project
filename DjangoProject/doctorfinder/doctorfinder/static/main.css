@@ -5,6 +5,7 @@ body {
 
 h3 {
     color:#568BA8;
+    padding-left:10px;
 }
 
 em {
@@ -60,7 +61,7 @@ tr:nth-child(odd) {
 
 .map{
     margin: auto;
-    width: 40.5%;
+    width: 45%;
     border-style: ridge;
     border-color:#A3C3D4; 
     border-width: 5px;
