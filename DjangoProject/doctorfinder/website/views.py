@@ -134,9 +134,9 @@ def login(request):
     return render(request, 'website/login.html', {'form': form, 'user': user})
    
 def my_profile(request):
-    user=User.objects.get(username=request.session['user'])
+    user=get_user(request)
     if user.type == "Patient":
-        patient=User.objects.get(username=request.session['user'])
+        patient=user
         favourites=FavoriteDoctors.objects.filter(patient_id=request.session['user'])
         docList=[favourite.doctor_id for favourite in favourites]
         doctors=[]
@@ -144,7 +144,7 @@ def my_profile(request):
             doctors.append(Doctor.objects.get(username=doc))
         return render(request, 'website/patient_profile.html', {'patient' : patient, 'doctors': doctors})
     else:
-        return redirect('website.views.doctor_detail', pk=request.session['user'])
+        return redirect('website.views.doctor_detail', pk=user.username)
 
 def remove_favdoc(request, pk):
     favourite_doc=FavoriteDoctors.objects.get(doctor_id=pk, patient_id=request.session['user'])

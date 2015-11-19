@@ -1,11 +1,12 @@
 {% extends "website/base.html" %}
 
 {% block content %}
-<p> Add Review </p>
 
-<form method="POST">
+<h3> Add Review :</h3>
+<form class="form" method="POST">
   {% csrf_token %}
   {{ form.as_p }}
-  <input type="submit" value="Submit" />
+  <input type="submit" value="Submit" class="btn btn-default"/>
 </form>
+
 {% endblock %}

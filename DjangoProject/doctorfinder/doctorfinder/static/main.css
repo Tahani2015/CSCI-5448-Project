@@ -1,14 +1,48 @@
 
 body {
-    padding-left: 300px;
-    padding-top: 20px;
-    background-color: #F2F2DC;
+    background-color:#E9F1F5;
 }
+
+h3 {
+    color:#568BA8;
+}
+
+em {
+    color:maroon;
+}
+
 .title {
-    color: #6E8C1C;
+	background-color:#A3C3D4 ;
+	text-align: center;
+    color: maroon;
     font-family: 'Lobster';
+    font-size:5em;
 }
 .nav {
     text-align: right;
     margin-right: 40px;
+}
+
+.form {
+    margin: auto;
+    width: 45%;
+    padding: 10px;
+    padding-left: 100px;
+    margin-top: 30px;
+    border-style: ridge;
+    border-color:#A3C3D4; 
+    border-width: 5px;
+    font-size: 120%;
+}
+
+.container{
+    font-size: 120%;
+}
+
+.map{
+    margin: auto;
+    width: 40.5%;
+    border-style: ridge;
+    border-color:#A3C3D4; 
+    border-width: 5px;
 }

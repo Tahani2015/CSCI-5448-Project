@@ -2,9 +2,9 @@
 
 {% block content %}
 
-<h2> Search results for <em>{{ doctors.speciality }}</em> doctors in <em>{{ doctors.city }}</em> </h2>
+<h3> Search results for <em><b>{{ doctors.speciality }}</b></em> doctors in <em><b>{{ doctors.city }} :</b></em> </h3>
 
-<form method="POST">
+<form class="form" method="POST">
 	{% csrf_token %}
 	{{ form.as_p}}
 </form>
@@ -16,8 +16,8 @@
 	{% if form.cleaned_data.choice_field == 'Availability' and doctor.availability.isoformat < current_date %}
 	
 	{% else %}
-	<div>
-    	<h3> <a href="{% url 'doctor_detail' pk=doctor.pk %}">{{ doctor.username.name }}</a></h3>
+	<div class="container">
+    	<h4> <a href="{% url 'doctor_detail' pk=doctor.pk %}">{{ doctor.username.name }}</a></h4>
     	<ul>
 	    	<li> <b>Speciality: </b> {{ doctor.speciality }}</li> 
 	    	<li> <b>Rating: </b>{{ doctor.rating }}</li> 

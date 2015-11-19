@@ -17,3 +17,5 @@ class LoginType():
 		else:
 			page= redirect('/admin')
 		return page
+
+	

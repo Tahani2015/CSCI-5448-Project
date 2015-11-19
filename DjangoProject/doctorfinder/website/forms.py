@@ -63,4 +63,4 @@ class EditDocProForm(forms.ModelForm):
 
 
 class MapForm(forms.Form):
-    map = forms.Field(widget=GoogleMap(attrs={'width':510, 'height':510}))
+    map = forms.Field(widget=GoogleMap(attrs={'width':500, 'height':500}))

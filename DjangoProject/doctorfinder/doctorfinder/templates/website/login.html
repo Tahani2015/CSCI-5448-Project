@@ -2,9 +2,10 @@
 
 {% block content %}
 
-<form method="POST">
+<form class="form" method="POST">
   {% csrf_token %}
   {{ form.as_p }}
-  <input type="submit" value="Login" />
+  <input type="submit" value="Login" class="btn btn-default"/>
 </form>
+
 {% endblock %}
