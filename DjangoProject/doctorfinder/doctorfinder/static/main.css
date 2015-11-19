@@ -22,6 +22,14 @@ table,td {
     font-size: 110%;
 }
 
+tr:nth-child(even) {
+  background-color: #E9F1F5;
+}
+
+tr:nth-child(odd) {
+  background-color: #A3C3D4;
+}
+
 .title {
 	background-color:#A3C3D4 ;
 	text-align: center;
