@@ -30,11 +30,9 @@ def index(request):
             
             search.setSort(RatingSort())
             search.doSearch()
-            if search.results== [] : print "No results! " # Alert msg
-            else:
-                #store search objects into our session information for use in search results
-                request.session['search'] = search
-                return redirect('website.views.search_results')
+        #store search objects into our session information for use in search results
+            request.session['search'] = search
+            return redirect('website.views.search_results')
     else:
         form = SearchForm()
     return render(request, 'website/index.html', {'form': form, 'user': user})

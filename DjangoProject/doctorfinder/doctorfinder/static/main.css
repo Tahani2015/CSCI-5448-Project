@@ -66,3 +66,9 @@ tr:nth-child(odd) {
     border-color:#A3C3D4; 
     border-width: 5px;
 }
+
+.alert{
+    color: red;
+    font-size: 150%;
+    text-align:center;
+}

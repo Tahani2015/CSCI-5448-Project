@@ -4,6 +4,7 @@
 
 <h3> Search results for <em><b>{{ doctors.speciality }}</b></em> doctors in <em><b>{{ doctors.city }} :</b></em> </h3>
 
+{% if doctors.results %} 
 <form class="form" method="POST">
 	{% csrf_token %}
 	{{ form.as_p}}
@@ -32,5 +33,12 @@
     {% endif %}
 
 {% endfor %}
-</table>   	
+</table> 
+{% else %}
+	<div class="alert">
+        <b>No Record Found! </b>
+    </div>
+
+{% endif %}
+
 {% endblock %}
