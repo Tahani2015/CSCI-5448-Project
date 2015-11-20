@@ -2,6 +2,7 @@ from __future__ import division
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django import forms
+from django.contrib import messages
 from gmapi import maps
 
 from .forms import *
@@ -31,8 +32,11 @@ def index(request):
             search.setSort(RatingSort())
             search.doSearch()
         #store search objects into our session information for use in search results
-            request.session['search'] = search
-            return redirect('website.views.search_results')
+            if len(search.results) is not 0:
+                request.session['search'] = search
+                return redirect('website.views.search_results')
+            else:
+                messages.add_message(request, messages.ERROR, "Sorry, we couldn't find any doctors that meet those criteria.")
     else:
         form = SearchForm()
     return render(request, 'website/index.html', {'form': form, 'user': user})
@@ -104,6 +108,7 @@ def calculate_rating(pk):
 def add_favorite(request, pk):
     favorite=FavoriteDoctors(patient_id=request.session['user'], doctor_id=pk)
     favorite.save()
+    messages.add_message(request, messages.SUCCESS, "Added Doctor to your list of favorites!")
     return redirect('website.views.doctor_detail', pk=pk)
 
 def sign_up(request):
